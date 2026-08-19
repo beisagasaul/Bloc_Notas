@@ -12,18 +12,17 @@ export class NotesService {
     private readonly noteRepository: Repository<Note>,
   ) {}
 
-  //crea nota
   async create(createNoteDto: CreateNoteDto): Promise<Note> {
     const note = this.noteRepository.create(createNoteDto);
     return await this.noteRepository.save(note);
   }
-  //Listar notas
+
   async findAll(): Promise<Note[]> {
     return await this.noteRepository.find({
       order: { created_at: 'DESC' },
     });
   }
-  //Busacar una nota
+
   async findOne(id: number): Promise<Note> {
     const note = await this.noteRepository.findOne({ where: { id } });
 
@@ -33,7 +32,7 @@ export class NotesService {
 
     return note;
   }
-  //actualizar
+
   async update(id: number, updateNoteDto: UpdateNoteDto): Promise<Note> {
     const note = await this.noteRepository.preload({
       id,
@@ -46,7 +45,7 @@ export class NotesService {
 
     return await this.noteRepository.save(note);
   }
-  //Eliminar
+
   async remove(id: number): Promise<void> {
     const result = await this.noteRepository.delete(id);
 
